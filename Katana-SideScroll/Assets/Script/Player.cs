@@ -82,5 +82,10 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("Run", false);
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            anim.SetTrigger("Attack");
+        }
     }
 }
