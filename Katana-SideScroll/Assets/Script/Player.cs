@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     public float jumpUp = 1;
     public Vector3 direction;
 
+    bool bJump = false;
     Animator anim;
     Rigidbody2D rb;
     SpriteRenderer sp;
@@ -22,6 +23,40 @@ public class Player : MonoBehaviour
     {
         KeyInput();
         Move();
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (anim.GetBool("Jump") == false)
+            {
+                Jump();
+                anim.SetBool("Jump", true);
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        Debug.DrawRay(rb.position, Vector3.down, new Color(0, 1, 0));
+
+        RaycastHit2D rayHit = Physics2D.Raycast(rb.position, Vector3.down, 1, LayerMask.GetMask("Ground"));
+
+        if (rb.linearVelocityY < 0)
+        {
+            if (rayHit.collider != null)
+            {
+                if(rayHit.distance < 0.7f)
+                {
+                    anim.SetBool("Jump", false);
+                }
+            }
+        }
+    }
+
+    public void Jump()
+    {
+        rb.linearVelocity = Vector2.zero;
+
+        rb.AddForce(new Vector2(0, jumpUp), ForceMode2D.Impulse);
     }
 
     public void Move()

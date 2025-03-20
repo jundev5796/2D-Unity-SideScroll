@@ -405,7 +405,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jumpUp: 1
+  jumpUp: 10
   direction: {x: 0, y: 0, z: 0}
 --- !u!1 &1262903357
 GameObject:
@@ -532,7 +532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1863731089}
   - component: {fileID: 1863731090}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BoxCol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
