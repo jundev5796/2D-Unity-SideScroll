@@ -53,23 +53,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void AtkSlash()
-    {
-        Instantiate(slash, transform.position, Quaternion.identity); // right
-    }
-
-    public void Jump()
-    {
-        rb.linearVelocity = Vector2.zero;
-
-        rb.AddForce(new Vector2(0, jumpUp), ForceMode2D.Impulse);
-    }
-
-    public void Move()
-    {
-        transform.position += direction * speed * Time.deltaTime;
-    }
-
     void KeyInput()
     {
         direction.x = Input.GetAxisRaw("Horizontal");
@@ -93,5 +76,22 @@ public class Player : MonoBehaviour
         {
             anim.SetTrigger("Attack");
         }
+    }
+
+    public void Move()
+    {
+        transform.position += direction * speed * Time.deltaTime;
+    }
+
+    public void Jump()
+    {
+        rb.linearVelocity = Vector2.zero;
+
+        rb.AddForce(new Vector2(0, jumpUp), ForceMode2D.Impulse);
+    }
+
+    public void AtkSlash()
+    {
+        Instantiate(slash, transform.position, Quaternion.identity); // right
     }
 }
