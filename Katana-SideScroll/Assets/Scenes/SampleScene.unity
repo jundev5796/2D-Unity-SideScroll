@@ -435,6 +435,7 @@ MonoBehaviour:
   speed: 5
   jumpUp: 10
   direction: {x: 0, y: 0, z: 0}
+  slash: {fileID: 1812183746211653578, guid: 5a2a417f9f414d64595ecc7032a184ce, type: 3}
 --- !u!1 &1262903357
 GameObject:
   m_ObjectHideFlags: 0

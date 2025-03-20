@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
     public float speed = 5;
     public float jumpUp = 1;
     public Vector3 direction;
+    public GameObject slash;
 
     bool bJump = false;
     Animator anim;
@@ -50,6 +51,11 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void AtkSlash()
+    {
+        Instantiate(slash, transform.position, Quaternion.identity); // right
     }
 
     public void Jump()
