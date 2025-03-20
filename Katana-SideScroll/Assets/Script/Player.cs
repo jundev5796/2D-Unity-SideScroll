@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     public float speed = 5;
     public float jumpUp = 1;
-    public Vector2 direction;
+    public Vector3 direction;
 
     Animator anim;
     Rigidbody2D rb;
@@ -20,7 +20,13 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        
+        KeyInput();
+        Move();
+    }
+
+    public void Move()
+    {
+        transform.position += direction * speed * Time.deltaTime;
     }
 
     void KeyInput()
