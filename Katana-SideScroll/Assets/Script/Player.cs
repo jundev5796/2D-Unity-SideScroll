@@ -36,14 +36,16 @@ public class Player : MonoBehaviour
         if (direction.x < 0)
         {
             sp.flipX = true;
+            anim.SetBool("Run", true);
         }
         else if (direction.x > 0)
         {
             sp.flipX = false;
+            anim.SetBool("Run", true);
         }
         else if (direction.x == 0)
         {
-
+            anim.SetBool("Run", false);
         }
     }
 }
