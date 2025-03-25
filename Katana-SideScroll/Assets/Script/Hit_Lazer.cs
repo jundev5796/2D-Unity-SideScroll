@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Hit_Lazer : MonoBehaviour
 {
+    [SerializeField]
     float Speed = 50f;
     Vector2 MousePos;
     Transform tr;

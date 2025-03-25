@@ -124,14 +124,14 @@ public class Player : MonoBehaviour
             rb.AddForce(Vector2.right * power, ForceMode2D.Impulse);
 
             GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // right
-            go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
+            //go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
         }
         else
         {
             rb.AddForce(Vector2.left * power, ForceMode2D.Impulse);
 
             GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // left
-            go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
+            //go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
         }
     }
 
