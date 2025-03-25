@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Player Stat")]
     public float speed = 5;
     public float jumpUp = 1;
+    public float power = 5;
     public Vector3 direction;
     public GameObject slash;
 
@@ -95,11 +97,15 @@ public class Player : MonoBehaviour
         // player right
         if (sp.flipX == false)
         {
+            rb.AddForce(Vector2.right * power, ForceMode2D.Impulse);
+
             GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // right
             go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
         }
         else
         {
+            rb.AddForce(Vector2.left * power, ForceMode2D.Impulse);
+
             GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // left
             go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
         }
