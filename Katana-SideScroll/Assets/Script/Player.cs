@@ -92,6 +92,16 @@ public class Player : MonoBehaviour
 
     public void AtkSlash()
     {
-        Instantiate(slash, transform.position, Quaternion.identity); // right
+        // player right
+        if (sp.flipX == false)
+        {
+            GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // right
+            go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
+        }
+        else
+        {
+            GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // left
+            go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
+        }
     }
 }
