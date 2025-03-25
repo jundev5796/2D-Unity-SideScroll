@@ -68,15 +68,29 @@ public class Player : MonoBehaviour
         {
             sp.flipX = true;
             anim.SetBool("Run", true);
+
+            // shadowflip
+            for (int i = 0; i < sh.Count; i++)
+            {
+                sh[i].GetComponent<SpriteRenderer>().flipX = sp.flipX;
+            }
         }
+
         else if (direction.x > 0)
         {
             sp.flipX = false;
             anim.SetBool("Run", true);
         }
+
         else if (direction.x == 0)
         {
             anim.SetBool("Run", false);
+
+            for (int i = 0; i < sh.Count; i++)
+            {
+                Destroy(sh[i]); // destroy game object
+                sh.RemoveAt(i); // destroy game object list
+            }
         }
 
         if (Input.GetMouseButtonDown(0))
