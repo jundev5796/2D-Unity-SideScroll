@@ -531,6 +531,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   slash: {fileID: 1812183746211653578, guid: 5a2a417f9f414d64595ecc7032a184ce, type: 3}
   Shadow1: {fileID: 4191348263394856579, guid: 9b934f44abee58442b0b4a9c5f3f0b07, type: 3}
+  hit_lazer: {fileID: 6755070191416241354, guid: 9a9cf9a5421500147831e090ca15d719, type: 3}
 --- !u!1 &1167812054
 GameObject:
   m_ObjectHideFlags: 0

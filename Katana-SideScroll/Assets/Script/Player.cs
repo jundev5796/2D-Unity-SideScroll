@@ -11,8 +11,12 @@ public class Player : MonoBehaviour
     public Vector3 direction;
     public GameObject slash;
 
+    // shadow
     public GameObject Shadow1;
     List<GameObject> sh = new List<GameObject>();
+
+    // hit effect
+    public GameObject hit_lazer;
 
     bool bJump = false;
     Animator anim;
@@ -96,6 +100,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("Attack");
+            Instantiate(hit_lazer, transform.position, Quaternion.identity);
         }
     }
 
