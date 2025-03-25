@@ -1,3 +1,5 @@
+//using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,6 +10,9 @@ public class Player : MonoBehaviour
     public float power = 5;
     public Vector3 direction;
     public GameObject slash;
+
+    public GameObject Shadow1;
+    List<GameObject> sh = new List<GameObject>();
 
     bool bJump = false;
     Animator anim;
@@ -108,6 +113,16 @@ public class Player : MonoBehaviour
 
             GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // left
             go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
+        }
+    }
+
+    public void RunShadow() 
+    {
+        if (sh.Count < 6)
+        {
+            GameObject go = Instantiate(Shadow1, transform.position, Quaternion.identity);
+            go.GetComponent<Shadow>().TwSpeed = 10 - sh.Count;
+            sh.Add(go);
         }
     }
 }
