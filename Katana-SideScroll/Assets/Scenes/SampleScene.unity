@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 89594928}
   - component: {fileID: 89594929}
   - component: {fileID: 89594930}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LineStep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ EdgeCollider2D:
   m_EdgeRadius: 0
   m_Points:
   - {x: -0.5, y: 0}
-  - {x: 3.0138855, y: 3.3889747}
+  - {x: 3.0583115, y: 3.4489508}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -542,7 +542,7 @@ GameObject:
   - component: {fileID: 1167812055}
   - component: {fileID: 1167812057}
   - component: {fileID: 1167812056}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LineStep (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,7 +630,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1230330798}
   - component: {fileID: 1230330799}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BoxCol2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
