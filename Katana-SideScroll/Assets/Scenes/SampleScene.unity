@@ -979,6 +979,14 @@ MonoBehaviour:
   Shadow1: {fileID: 4191348263394856579, guid: 9b934f44abee58442b0b4a9c5f3f0b07, type: 3}
   hit_lazer: {fileID: 6755070191416241354, guid: 9a9cf9a5421500147831e090ca15d719, type: 3}
   jumpDust: {fileID: 6232621736445369267, guid: 3cade9c4595f69141b1761e384a06eab, type: 3}
+  wallChk: {fileID: 0}
+  wallChkDistance: 0.5
+  wLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  slidingSpeed: 0.8
+  wallJumpPower: 10
+  isWallJump: 0
 --- !u!1 &682252823
 GameObject:
   m_ObjectHideFlags: 0

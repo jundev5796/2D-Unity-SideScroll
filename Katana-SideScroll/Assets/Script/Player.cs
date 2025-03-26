@@ -1,6 +1,7 @@
 //using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
@@ -27,6 +28,16 @@ public class Player : MonoBehaviour
     //public GameObject Dust;
     public GameObject jumpDust;
 
+    // 벽점프
+    public Transform wallChk;
+    public float wallChkDistance;
+    public LayerMask wLayer;
+    bool isWall;
+    public float slidingSpeed;
+    public float wallJumpPower;
+    public bool isWallJump;
+    float isRight = 1;
+
 
 
 
@@ -40,8 +51,14 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        KeyInput();
-        Move();
+        if (!isWallJump)
+        {
+            KeyInput();
+            Move();
+        }
+
+        isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallChkDistance, wLayer);
+        anim.SetBool("Grab", isWall);
 
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -52,7 +69,35 @@ public class Player : MonoBehaviour
                 JumpDust();
             }
         }
+
+        if (isWall)
+        {
+            isWallJump = false;
+            // 벽점프 상태
+            rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * slidingSpeed);
+            // 벽을 잡고있는 상태에서 점프
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                isWallJump = true;
+                // 벽점프 먼지
+
+                Invoke("FreezeX", 0.3f);
+
+                // 물리
+                rb.linearVelocity = new Vector2(-isRight * wallJumpPower, 0.9f * wallJumpPower);
+
+                sp.flipX = sp.flipX == false ? true : false;
+                isRight = -isRight;
+            }
+        }
     }
+
+    void FreezeX()
+    {
+        isWallJump = false;
+    }
+
+
 
     private void FixedUpdate()
     {
@@ -78,8 +123,12 @@ public class Player : MonoBehaviour
 
         if (direction.x < 0)
         {
+            // left
             sp.flipX = true;
             anim.SetBool("Run", true);
+
+            // 점프 벽잡기 방향
+
 
             // shadowflip
             for (int i = 0; i < sh.Count; i++)
@@ -92,6 +141,8 @@ public class Player : MonoBehaviour
         {
             sp.flipX = false;
             anim.SetBool("Run", true);
+
+            isRight = 1;
         }
 
         else if (direction.x == 0)
@@ -164,5 +215,11 @@ public class Player : MonoBehaviour
     public void JumpDust()
     {
         Instantiate(jumpDust, transform.position, Quaternion.identity);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallChkDistance);
     }
 }
