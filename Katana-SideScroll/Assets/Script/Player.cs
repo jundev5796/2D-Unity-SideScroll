@@ -24,7 +24,8 @@ public class Player : MonoBehaviour
     SpriteRenderer sp;
 
     // ¹Ù´Ú¸ÕÁö
-    public GameObject Dust;
+    //public GameObject Dust;
+    public GameObject jumpDust;
 
 
 
@@ -48,6 +49,7 @@ public class Player : MonoBehaviour
             {
                 Jump();
                 anim.SetBool("Jump", true);
+                JumpDust();
             }
         }
     }
@@ -157,5 +159,10 @@ public class Player : MonoBehaviour
     public void RandDust(GameObject dust)
     {
         Instantiate(dust, transform.position + new Vector3(-0.114f, -0.467f, 0), Quaternion.identity);
+    }
+
+    public void JumpDust()
+    {
+        Instantiate(jumpDust, transform.position, Quaternion.identity);
     }
 }
