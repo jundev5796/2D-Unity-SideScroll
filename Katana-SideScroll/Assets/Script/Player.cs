@@ -23,6 +23,12 @@ public class Player : MonoBehaviour
     Rigidbody2D rb;
     SpriteRenderer sp;
 
+    // ¹Ù´Ú¸ÕÁö
+    public GameObject Dust;
+
+
+
+
     void Start()
     {
         direction = Vector2.zero;
@@ -143,5 +149,13 @@ public class Player : MonoBehaviour
             go.GetComponent<Shadow>().TwSpeed = 10 - sh.Count;
             sh.Add(go);
         }
+    }
+
+
+
+    // Èë¸ÕÁö
+    public void RandDust(GameObject dust)
+    {
+        Instantiate(dust, transform.position + new Vector3(-0.114f, -0.467f, 0), Quaternion.identity);
     }
 }
