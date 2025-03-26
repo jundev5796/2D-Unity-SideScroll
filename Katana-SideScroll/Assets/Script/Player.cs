@@ -1,96 +1,177 @@
-//using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
-    [Header("Player Stat")]
+    [Header("ÌîåÎ†àÏù¥Ïñ¥ ÏÜçÏÑ±")]
     public float speed = 5;
     public float jumpUp = 1;
     public float power = 5;
     public Vector3 direction;
     public GameObject slash;
 
-    // shadow
+    //Í∑∏Î¶ºÏûê
     public GameObject Shadow1;
     List<GameObject> sh = new List<GameObject>();
 
-    // hit effect
+    //ÌûàÌä∏ Ïù¥ÌéôÌä∏
     public GameObject hit_lazer;
 
+
+
+
     bool bJump = false;
-    Animator anim;
-    Rigidbody2D rb;
+    Animator pAnimator;
+    Rigidbody2D pRig2D;
     SpriteRenderer sp;
 
-    // πŸ¥⁄∏’¡ˆ
-    //public GameObject Dust;
-    public GameObject jumpDust;
+    public GameObject Jdust;
 
-    // ∫Æ¡°«¡
+
+    //Î≤ΩÏ†êÌîÑ
     public Transform wallChk;
-    public float wallChkDistance;
+    public float wallchkDistance;
     public LayerMask wLayer;
     bool isWall;
     public float slidingSpeed;
     public float wallJumpPower;
     public bool isWallJump;
     float isRight = 1;
-
-
-
+       
 
     void Start()
     {
+        pAnimator = GetComponent<Animator>();
+        pRig2D = GetComponent<Rigidbody2D>();
         direction = Vector2.zero;
-        anim = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
         sp = GetComponent<SpriteRenderer>();
+
     }
 
+
+    void KeyInput()
+    {
+        direction.x = Input.GetAxisRaw("Horizontal"); //ÏôºÏ™ΩÏùÄ -1   0   1
+
+        if(direction.x <0)
+        {
+            //left
+            sp.flipX = true;
+            pAnimator.SetBool("Run", true);
+
+            //Ï†êÌîÑÎ≤ΩÏû°Í∏∞ Î∞©Ìñ•
+            isRight = -1;
+
+
+            //Shadowflip
+            for(int i =0; i<sh.Count; i++)
+            {
+                sh[i].GetComponent<SpriteRenderer>().flipX = sp.flipX;
+            }
+
+        }
+        else if(direction.x >0)
+        {
+            //right
+            sp.flipX = false;
+            pAnimator.SetBool("Run", true);
+
+            isRight = 1;
+
+            //Shadowflip
+            for (int i = 0; i < sh.Count; i++)
+            {
+                sh[i].GetComponent<SpriteRenderer>().flipX = sp.flipX;
+            }
+
+
+        }
+        else if(direction.x == 0)
+        {
+            pAnimator.SetBool("Run", false);
+
+
+            for (int i = 0; i < sh.Count; i++)
+            {
+                Destroy(sh[i]); //Í≤åÏûÑÏò§Î∏åÏ†ùÌä∏ÏßÄÏö∞Í∏∞
+                sh.RemoveAt(i); //Í≤åÏûÑÏò§Î∏åÏ†ùÌä∏ Í¥ÄÎ¶¨ÌïòÎäî Î¶¨Ïä§Ìä∏ÏßÄÏö∞Í∏∞
+            }
+
+
+
+
+
+        }
+
+
+        if (Input.GetMouseButtonDown(0)) //0Î≤à ÏôºÏ™ΩÎßàÏö∞Ïä§
+        {
+            pAnimator.SetTrigger("Attack");
+            Instantiate(hit_lazer, transform.position, Quaternion.identity);
+
+        }
+
+
+
+
+    }
+
+    
     void Update()
     {
-        if (!isWallJump)
+
+        if(!isWallJump)
         {
             KeyInput();
             Move();
         }
+       
 
-        isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallChkDistance, wLayer);
-        anim.SetBool("Grab", isWall);
 
-        if (Input.GetKeyDown(KeyCode.W))
+        //Î≤ΩÏù∏ÏßÄ Ï≤¥ÌÅ¨
+        isWall = Physics2D.Raycast(wallChk.position, Vector2.right * isRight, wallchkDistance, wLayer);
+        pAnimator.SetBool("Grab", isWall);
+
+
+
+
+
+        if(Input.GetKeyDown(KeyCode.W))
         {
-            if (anim.GetBool("Jump") == false)
+            if(pAnimator.GetBool("Jump")==false)
             {
                 Jump();
-                anim.SetBool("Jump", true);
+                pAnimator.SetBool("Jump", true);
                 JumpDust();
             }
+          
         }
 
-        if (isWall)
+
+
+        if(isWall)
         {
             isWallJump = false;
-            // ∫Æ¡°«¡ ªÛ≈¬
-            rb.linearVelocity = new Vector2(rb.linearVelocityX, rb.linearVelocityY * slidingSpeed);
-            // ∫Æ¿ª ¿‚∞Ì¿÷¥¬ ªÛ≈¬ø°º≠ ¡°«¡
-            if (Input.GetKeyDown(KeyCode.W))
+            //Î≤ΩÏ†êÌîÑÏÉÅÌÉú
+            pRig2D.linearVelocity = new Vector2(pRig2D.linearVelocityX, pRig2D.linearVelocityY * slidingSpeed);
+            //Î≤ΩÏùÑ Ïû°Í≥†ÏûàÎäî ÏÉÅÌÉúÏóêÏÑú Ï†êÌîÑ
+            if(Input.GetKeyDown(KeyCode.W))
             {
                 isWallJump = true;
-                // ∫Æ¡°«¡ ∏’¡ˆ
+                //Î≤ΩÏ†êÌîÑ Î®ºÏßÄ
 
                 Invoke("FreezeX", 0.3f);
-
-                // π∞∏Æ
-                rb.linearVelocity = new Vector2(-isRight * wallJumpPower, 0.9f * wallJumpPower);
+                //Î¨ºÎ¶¨
+                pRig2D.linearVelocity = new Vector2(-isRight * wallJumpPower, 0.9f * wallJumpPower);
 
                 sp.flipX = sp.flipX == false ? true : false;
                 isRight = -isRight;
             }
+
         }
+
     }
+
 
     void FreezeX()
     {
@@ -99,127 +180,113 @@ public class Player : MonoBehaviour
 
 
 
+
+
+
+
+
+
+
     private void FixedUpdate()
     {
-        Debug.DrawRay(rb.position, Vector3.down, new Color(0, 1, 0));
+        Debug.DrawRay(pRig2D.position, Vector3.down, new Color(0, 1, 0));
 
-        RaycastHit2D rayHit = Physics2D.Raycast(rb.position, Vector3.down, 1, LayerMask.GetMask("Ground"));
+        //Î†àÏù¥Ï∫êÏä§Ìä∏Î°ú ÎïÖÏ≤¥ÌÅ¨ 
+        RaycastHit2D rayHit = Physics2D.Raycast(pRig2D.position, Vector3.down, 1, LayerMask.GetMask("Ground"));
 
-        if (rb.linearVelocityY < 0)
+        if(pRig2D.linearVelocityY < 0)
         {
-            if (rayHit.collider != null)
+            if(rayHit.collider != null)
             {
-                if(rayHit.distance < 0.7f)
+                if(rayHit.distance <0.7f)
                 {
-                    anim.SetBool("Jump", false);
+                    pAnimator.SetBool("Jump", false);
                 }
             }
         }
+
+
     }
 
-    void KeyInput()
+
+
+
+
+
+
+
+    public void Jump()
     {
-        direction.x = Input.GetAxisRaw("Horizontal");
+        pRig2D.linearVelocity = Vector2.zero;
 
-        if (direction.x < 0)
-        {
-            // left
-            sp.flipX = true;
-            anim.SetBool("Run", true);
-
-            // ¡°«¡ ∫Æ¿‚±‚ πÊ«‚
-
-
-            // shadowflip
-            for (int i = 0; i < sh.Count; i++)
-            {
-                sh[i].GetComponent<SpriteRenderer>().flipX = sp.flipX;
-            }
-        }
-
-        else if (direction.x > 0)
-        {
-            sp.flipX = false;
-            anim.SetBool("Run", true);
-
-            isRight = 1;
-        }
-
-        else if (direction.x == 0)
-        {
-            anim.SetBool("Run", false);
-
-            for (int i = 0; i < sh.Count; i++)
-            {
-                Destroy(sh[i]); // destroy game object
-                sh.RemoveAt(i); // destroy game object list
-            }
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            anim.SetTrigger("Attack");
-            Instantiate(hit_lazer, transform.position, Quaternion.identity);
-        }
+        pRig2D.AddForce(new Vector2(0, jumpUp), ForceMode2D.Impulse);
     }
+
+
+
+
 
     public void Move()
     {
         transform.position += direction * speed * Time.deltaTime;
     }
 
-    public void Jump()
-    {
-        rb.linearVelocity = Vector2.zero;
 
-        rb.AddForce(new Vector2(0, jumpUp), ForceMode2D.Impulse);
-    }
 
-    public void AtkSlash()
+    public void AttSlash()
     {
-        // player right
-        if (sp.flipX == false)
+        //ÌîåÎ†àÏù¥Ïñ¥ Ïò§Î•∏Ï™Ω
+        if(sp.flipX == false)
         {
-            rb.AddForce(Vector2.right * power, ForceMode2D.Impulse);
-
-            GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // right
+            pRig2D.AddForce(Vector2.right * power, ForceMode2D.Impulse);
+            //ÌîåÎ†àÏù¥Ïñ¥ Ïò§Î•∏Ï™Ω
+            GameObject go = Instantiate(slash, transform.position, Quaternion.identity);
             //go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
         }
         else
         {
-            rb.AddForce(Vector2.left * power, ForceMode2D.Impulse);
 
-            GameObject go = Instantiate(slash, transform.position, Quaternion.identity); // left
+            pRig2D.AddForce(Vector2.left * power, ForceMode2D.Impulse);
+            //ÏôºÏ™Ω
+            GameObject go = Instantiate(slash, transform.position, Quaternion.identity);
             //go.GetComponent<SpriteRenderer>().flipX = sp.flipX;
-        }
+        }   
+
     }
 
-    public void RunShadow() 
+    //Í∑∏Î¶ºÏûê
+    public void RunShadow()
     {
-        if (sh.Count < 6)
+        if(sh.Count<6)
         {
             GameObject go = Instantiate(Shadow1, transform.position, Quaternion.identity);
-            go.GetComponent<Shadow>().TwSpeed = 10 - sh.Count;
+            go.GetComponent<Shadow>().TwSpeed = 10 - sh.Count; 
             sh.Add(go);
         }
     }
 
 
 
-    // »Î∏’¡ˆ
+    //ÌùôÎ®ºÏßÄ
     public void RandDust(GameObject dust)
     {
-        Instantiate(dust, transform.position + new Vector3(-0.114f, -0.467f, 0), Quaternion.identity);
+        Instantiate(dust, transform.position +new Vector3(-0.114f,-0.467f,0), Quaternion.identity);
     }
+
 
     public void JumpDust()
     {
-        Instantiate(jumpDust, transform.position, Quaternion.identity);
+        Instantiate(Jdust, transform.position, Quaternion.identity);
     }
 
+    //Î≤ΩÏ†êÌîÑ
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallChkDistance);
+        Gizmos.DrawRay(wallChk.position, Vector2.right * isRight * wallchkDistance);
     }
+
+
+
+
 }

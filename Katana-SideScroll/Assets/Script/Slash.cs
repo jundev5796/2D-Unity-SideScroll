@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Slash : MonoBehaviour
 {
@@ -7,11 +6,16 @@ public class Slash : MonoBehaviour
     Vector2 MousePos;
     Vector3 dir;
 
+
+
     float angle;
     Vector3 dirNo;
 
+
+
     public Vector3 direction = Vector3.right;
 
+    
     void Start()
     {
         p = GameObject.FindGameObjectWithTag("Player");
@@ -22,18 +26,27 @@ public class Slash : MonoBehaviour
         Vector3 Pos = new Vector3(MousePos.x, MousePos.y, 0);
         dir = Pos - tr.position;
 
-        // ¹Ù¶óº¸´Â °¢µµ ±¸ÇÏ±â
+
+        //ë°”ë¼ë³´ëŠ” ê°ë„ êµ¬í•˜ê¸°
         angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+
+
     }
 
+    
     void Update()
     {
+        //íšŒì „ì ìš©
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
         transform.position = p.transform.position;
     }
+
 
     public void Des()
     {
         Destroy(gameObject);
     }
+
+
 }
