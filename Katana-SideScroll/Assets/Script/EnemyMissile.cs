@@ -5,7 +5,7 @@ public class EnemyMissile : MonoBehaviour
     public float speed = 5f;    //미사일 속도
     public float lifeTime = 3f; //미사일 생존 시간
     public int damage = 10;     //미사일 데미지
-    public Vector2 direction;  //미사일 이동 방향
+    private Vector2 direction;  //미사일 이동 방향
    
 
     void Start()
@@ -16,6 +16,11 @@ public class EnemyMissile : MonoBehaviour
     public void SetDirection(Vector2 dir)
     {
         direction = dir.normalized;
+    }
+
+    public Vector2 GetDirection()
+    {
+        return direction;
     }
 
 
